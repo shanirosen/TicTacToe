@@ -11,20 +11,10 @@ namespace TicTacToe
     {
         static void Main(string[] args)
         {
-            /**
-             *  0 |   | X
-             *  ---------- 
-             *  X |   | X
-             *  ----------
-             *    | 0 | 0
-             *  
-             */
 
             string huPlayer = "O";
             string aiPlayer = "X";
             string[] origBoard = new string[9];
-           
-      
 
             Move bestSpot = new Move();
             printDemo();

@@ -27,9 +27,8 @@ namespace TicTacToe
 
             Move bestSpot = new Move();
             bestSpot = minimax(origBoard, aiPlayer);
-            Console.WriteLine(bestSpot.GetScore());
+            Console.WriteLine("next move: " +bestSpot.GetIndex());
 
-            Console.WriteLine("next move:" +bestSpot.GetIndex());
 
         }
 
@@ -41,19 +40,19 @@ namespace TicTacToe
             emptyPlaces(newBoard, availSpots); //list of empty indexes in the board
             if (winning(newBoard, player) && player == "0")
             {
-                Debug.WriteLine("human won");
+                
                 result.SetScore(-10);
                 return result;
             }
             if (winning(newBoard, player) && player == "X")
             {
-                Debug.WriteLine("comp won");
+                
                 result.SetScore(10);
                 return result;
             }
             if (availSpots.Count == 0)
             {
-                Debug.WriteLine("nobody won");
+                
                 result.SetScore(0);
                 return result;
             }
@@ -80,11 +79,10 @@ namespace TicTacToe
                 newBoard[availSpots[i]] = null; //reset
 
                 moves.Add(single_move);
-                Console.WriteLine("score: " +single_move.GetScore());
-                Console.WriteLine("index:" + single_move.GetIndex());
+               
             }
 
-            Console.WriteLine("num of moves: " +moves.Count);
+           
             int bestMove = 0; //best move index
             if (player == "X")
             {
@@ -113,11 +111,8 @@ namespace TicTacToe
                 }
 
             }
-                Console.WriteLine("bestmove: " + bestMove);
-            Console.WriteLine("num of moves" + moves.Count);
-         
 
-                return moves[bestMove]; //returning the best move
+            return moves[bestMove]; //returning the best move
 
         }
 

@@ -20,16 +20,77 @@ namespace TicTacToe
              *  
              */
 
-            string huPlayer = "0";
+            string huPlayer = "O";
             string aiPlayer = "X";
-            string[] origBoard = new string[9] { "0", null, "X", "X", null, "X", null, "0", "0" };
+            string[] origBoard = new string[9];
+           
       
 
             Move bestSpot = new Move();
-            bestSpot = minimax(origBoard, aiPlayer);
-            Console.WriteLine("next move: " +bestSpot.GetIndex());
+            printDemo();
+            Console.WriteLine("YOU ARE O!");
+            
 
+            while(!winning(origBoard, huPlayer) && !winning(origBoard, aiPlayer) && origBoard.Contains(null))
+            {
+                Console.WriteLine("enter a number (index 0->8): ");
+                int s = int.Parse(Console.ReadLine());
+                if(origBoard[s]==null)
+                {
+                    origBoard[s] = "O";
+                }
+                else
+                {
+                    Console.WriteLine("this spot is taken");
+                    continue;
+                }
+                bestSpot = minimax(origBoard, aiPlayer);
+              
+                origBoard[bestSpot.GetIndex()] = "X";
+                printTicTacToe(origBoard);
+            }
 
+        }
+
+        public static void printTicTacToe (string[] origBoard)
+        {
+            Console.Write(" " + origBoard[0] + " |");
+            Console.Write(" " + origBoard[1] + " |");
+            Console.Write(" " + origBoard[2] + " ");
+            Console.WriteLine();
+            Console.Write("-----------");
+            Console.WriteLine();
+            Console.Write(" " + origBoard[3] + " |");
+            Console.Write(" " + origBoard[4] + " |");
+            Console.Write(" " + origBoard[5] + " ");
+            Console.WriteLine();
+            Console.Write("-----------");
+            Console.WriteLine();
+            Console.Write(" " + origBoard[6] + " |");
+            Console.Write(" " + origBoard[7] + " |");
+            Console.Write(" " + origBoard[8] + " ");
+            Console.WriteLine();
+        }
+
+        public static void printDemo()
+        {
+            Console.WriteLine("Board:");
+            Console.Write(" " + 0 + " |");
+            Console.Write(" " + 1 + " |");
+            Console.Write(" " + 2 + " ");
+            Console.WriteLine();
+            Console.Write("----------");
+            Console.WriteLine();
+            Console.Write(" " + 3 + " |");
+            Console.Write(" " + 4 + " |");
+            Console.Write(" " +5 + " ");
+            Console.WriteLine();
+            Console.Write("----------");
+            Console.WriteLine();
+            Console.Write(" " + 6 + " |");
+            Console.Write(" " +7 + " |");
+            Console.Write(" " + 8 + " ");
+            Console.WriteLine();
         }
 
         public static Move minimax(string[] newBoard, string player)
@@ -38,7 +99,7 @@ namespace TicTacToe
             Move result = new Move(); //last move
             List<int> availSpots = new List<int>();
             emptyPlaces(newBoard, availSpots); //list of empty indexes in the board
-            if (winning(newBoard, player) && player == "0")
+            if (winning(newBoard, player) && player == "O")
             {
                 
                 result.SetScore(-10);
@@ -67,7 +128,7 @@ namespace TicTacToe
 
                 if (player == "X")
                 {
-                    result = minimax(newBoard, "0");
+                    result = minimax(newBoard, "O");
                     single_move.SetScore(result.GetScore());
                 }
                 else

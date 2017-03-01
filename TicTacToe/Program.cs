@@ -23,16 +23,19 @@ namespace TicTacToe
             string huPlayer = "0";
             string aiPlayer = "X";
             string[] origBoard = new string[9] { "0", null, "X", "X", null, "X", null, "0", "0" };
-
+      
 
             Move bestSpot = new Move();
             bestSpot = minimax(origBoard, aiPlayer);
-            Console.WriteLine(bestSpot.GetIndex());
+            Console.WriteLine(bestSpot.GetScore());
+
+            Console.WriteLine("next move:" +bestSpot.GetIndex());
+
         }
 
         public static Move minimax(string[] newBoard, string player)
         {
-            Debug.WriteLine("got here1");
+        
             Move result = new Move(); //last move
             List<int> availSpots = new List<int>();
             emptyPlaces(newBoard, availSpots); //list of empty indexes in the board
@@ -60,7 +63,7 @@ namespace TicTacToe
             for (int i = 0; i < availSpots.Count; i++)
             {
                 Move single_move = new Move();
-                single_move.SetIndex(newBoard[availSpots[i]]);
+                single_move.SetIndex(availSpots[i]);
                 newBoard[availSpots[i]] = player;
 
                 if (player == "X")
@@ -77,8 +80,11 @@ namespace TicTacToe
                 newBoard[availSpots[i]] = null; //reset
 
                 moves.Add(single_move);
+                Console.WriteLine("score: " +single_move.GetScore());
+                Console.WriteLine("index:" + single_move.GetIndex());
             }
 
+            Console.WriteLine("num of moves: " +moves.Count);
             int bestMove = 0; //best move index
             if (player == "X")
             {
@@ -89,6 +95,7 @@ namespace TicTacToe
                     {
                         bestScore = moves[i].GetScore();
                         bestMove = i;
+
                     }
                 }
             }
@@ -101,12 +108,16 @@ namespace TicTacToe
                     {
                         bestScore = moves[i].GetScore();
                         bestMove = i;
+                        
                     }
                 }
 
             }
+                Console.WriteLine("bestmove: " + bestMove);
+            Console.WriteLine("num of moves" + moves.Count);
+         
 
-            return moves[bestMove]; //returning the best move
+                return moves[bestMove]; //returning the best move
 
         }
 

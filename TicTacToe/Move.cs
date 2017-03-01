@@ -9,13 +9,13 @@ namespace TicTacToe
     class Move
     {
         private int score;
-        private string index;
+        private int index;
 
         public int GetScore()
         {
             return score;
         }
-        public string GetIndex()
+        public int GetIndex()
         {
             return index;
         }
@@ -24,7 +24,7 @@ namespace TicTacToe
         {
             score = newScore;
         }
-        public void SetIndex(string newIndex)
+        public void SetIndex(int newIndex)
         {
             index = newIndex;
         }

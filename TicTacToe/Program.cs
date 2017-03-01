@@ -85,7 +85,7 @@ namespace TicTacToe
                 int bestScore = -10000;
                 for (int i = 0; i < moves.Count; i++)
                 {
-                    if (moves[i].GetScore() < bestScore)
+                    if (moves[i].GetScore() > bestScore)
                     {
                         bestScore = moves[i].GetScore();
                         bestMove = i;

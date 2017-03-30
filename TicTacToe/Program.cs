@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace TicTacToe
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -19,13 +19,13 @@ namespace TicTacToe
             Move bestSpot = new Move();
             printDemo();
             Console.WriteLine("YOU ARE O!");
-            
 
-            while(!winning(origBoard, huPlayer) && !winning(origBoard, aiPlayer) && origBoard.Contains(null))
+
+            while (!winning(origBoard, huPlayer) && !winning(origBoard, aiPlayer) && origBoard.Contains(null))
             {
                 Console.WriteLine("enter a number (index 0->8): ");
                 int s = int.Parse(Console.ReadLine());
-                if(origBoard[s]==null)
+                if (origBoard[s] == null)
                 {
                     origBoard[s] = "O";
                 }
@@ -35,14 +35,14 @@ namespace TicTacToe
                     continue;
                 }
                 bestSpot = minimax(origBoard, aiPlayer);
-              
+
                 origBoard[bestSpot.GetIndex()] = "X";
                 printTicTacToe(origBoard);
             }
 
         }
 
-        public static void printTicTacToe (string[] origBoard)
+        public static void printTicTacToe(string[] origBoard)
         {
             Console.Write(" " + origBoard[0] + " |");
             Console.Write(" " + origBoard[1] + " |");
@@ -73,37 +73,38 @@ namespace TicTacToe
             Console.WriteLine();
             Console.Write(" " + 3 + " |");
             Console.Write(" " + 4 + " |");
-            Console.Write(" " +5 + " ");
+            Console.Write(" " + 5 + " ");
             Console.WriteLine();
             Console.Write("----------");
             Console.WriteLine();
             Console.Write(" " + 6 + " |");
-            Console.Write(" " +7 + " |");
+            Console.Write(" " + 7 + " |");
             Console.Write(" " + 8 + " ");
             Console.WriteLine();
         }
 
         public static Move minimax(string[] newBoard, string player)
         {
-        
+            int length = (int)Math.Sqrt(newBoard.Length);
             Move result = new Move(); //last move
             List<int> availSpots = new List<int>();
             emptyPlaces(newBoard, availSpots); //list of empty indexes in the board
-            if (winning(newBoard, player) && player == "O")
+
+            if (IsWinning(newBoard, player, length) && player == "O")
             {
-                
+
                 result.SetScore(-10);
                 return result;
             }
-            if (winning(newBoard, player) && player == "X")
+            if (IsWinning(newBoard, player, length) && player == "X")
             {
-                
+
                 result.SetScore(10);
                 return result;
             }
             if (availSpots.Count == 0)
             {
-                
+
                 result.SetScore(0);
                 return result;
             }
@@ -130,10 +131,10 @@ namespace TicTacToe
                 newBoard[availSpots[i]] = null; //reset
 
                 moves.Add(single_move);
-               
+
             }
 
-           
+
             int bestMove = 0; //best move index
             if (player == "X")
             {
@@ -157,7 +158,7 @@ namespace TicTacToe
                     {
                         bestScore = moves[i].GetScore();
                         bestMove = i;
-                        
+
                     }
                 }
 
@@ -194,6 +195,59 @@ namespace TicTacToe
                 return true;
             }
             return false;
+        }
+
+        public static bool IsWinning(string[] board, string player, int length)
+        {
+
+            int n = (int)Math.Sqrt(board.Length);
+            for (int i = 0; i < n; i++)
+            {
+                if (WinningStreak(board, 0, i, 1, 0, length, player) || WinningStreak(board, i, 0, 0, 1, length, player)) //WIDTH & LENGTH check
+                {
+                    return true;
+                }
+            }
+
+            return WinningStreak(board, 0, 0, 1, 1, length, player) || WinningStreak(board, n - 1, 0, -1, 1, length, player); //diagonal check
+
+
+
+        }
+
+        public static bool WinningStreak(string[] board, int x, int y, int dx, int dy, int length, string player)
+        {
+            //WHEN DY = 1, CHECKS DOWNWARDS. WHEN DX = 1, CHECKS RIGHTWARDS. X = COLUMNS, Y = ROWS (X,Y)
+            //WHEN DY = 1, DX = 1, CHECKS DIAGONALLY FROM (0,0); WHEN DY = 1, DX = -1, CHECKS DIAGONALLY FROM (N-1,0)
+
+            /*   X X X
+             *   ------>
+             * Y |
+             * Y |
+             * Y |
+             *   v
+             */
+
+            int indexChange = (int)Math.Sqrt(board.Length) * dy + dx;
+            int count = 0;
+            int depth = 0;
+            int index = (int)Math.Sqrt(board.Length) * y + x;
+            while (index >= 0 && index < board.Length && depth < length)
+            {
+                if (board[index] == player)
+                {
+                    count++;
+                }
+
+                if (count == length)
+                {
+                    return true;
+                }
+                index += indexChange;
+                depth++;
+            }
+            return false;
+
         }
     }
 }

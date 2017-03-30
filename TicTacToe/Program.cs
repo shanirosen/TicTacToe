@@ -14,9 +14,12 @@ namespace TicTacToe
 
             string huPlayer = "O";
             string aiPlayer = "X";
-            string[] origBoard = new string[9];
+            string[] board = new string[] {
+                "X", "X", "O",
+                "", "X", "",
+                "X", "O", "O"};
 
-            Move bestSpot = new Move();
+            /*
             printDemo();
             Console.WriteLine("YOU ARE O!");
 
@@ -38,7 +41,7 @@ namespace TicTacToe
 
                 origBoard[bestSpot.GetIndex()] = "X";
                 printTicTacToe(origBoard);
-            }
+            }*/
 
         }
 
@@ -92,19 +95,16 @@ namespace TicTacToe
 
             if (IsWinning(newBoard, player, length) && player == "O")
             {
-
                 result.SetScore(-10);
                 return result;
             }
             if (IsWinning(newBoard, player, length) && player == "X")
             {
-
                 result.SetScore(10);
                 return result;
             }
             if (availSpots.Count == 0)
-            {
-
+            { 
                 result.SetScore(0);
                 return result;
             }
@@ -124,14 +124,14 @@ namespace TicTacToe
                 }
                 else
                 {
+                    
                     result = minimax(newBoard, "X");
                     single_move.SetScore(result.GetScore());
                 }
-
-                newBoard[availSpots[i]] = null; //reset
-
+                
+                newBoard[availSpots[i]] = ""; //reset
+               
                 moves.Add(single_move);
-
             }
 
 
@@ -172,7 +172,7 @@ namespace TicTacToe
         {
             for (int i = 0; i < board.Length; i++)
             {
-                if (board[i] == null)
+                if (board[i] == "")
                 {
                     indexes.Add(i);
                 }

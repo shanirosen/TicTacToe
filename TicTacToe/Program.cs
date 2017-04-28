@@ -19,6 +19,10 @@ namespace TicTacToe
                 "", "X", "",
                 "X", "O", "O"};
 
+            Move m = new Move();
+            m = minimax(board, aiPlayer);
+            Console.WriteLine(m.GetIndex());
+
             /*
             printDemo();
             Console.WriteLine("YOU ARE O!");
@@ -93,22 +97,31 @@ namespace TicTacToe
             List<int> availSpots = new List<int>();
             emptyPlaces(newBoard, availSpots); //list of empty indexes in the board
 
-            if (IsWinning(newBoard, player, length) && player == "O")
+            if (IsWinning(newBoard, "O", length) && player == "O")
             {
                 result.SetScore(-10);
                 return result;
             }
-            if (IsWinning(newBoard, player, length) && player == "X")
+            if (IsWinning(newBoard, "X", length) && player == "X")
             {
                 result.SetScore(10);
                 return result;
             }
-            if (availSpots.Count == 0)
+            if (IsWinning(newBoard, "O", length) && player == "X")
+            {
+                result.SetScore(-10);
+                return result;
+            }
+            if (IsWinning(newBoard, "X", length) && player == "O")
+            {
+                result.SetScore(10);
+                return result;
+            }
+            if (availSpots.Count==0)
             { 
                 result.SetScore(0);
                 return result;
             }
-
             List<Move> moves = new List<Move>();
             //going through the empty indexes and collecting the score and indexes of each move in a list
             for (int i = 0; i < availSpots.Count; i++)

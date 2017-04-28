@@ -13,8 +13,8 @@ namespace TicTacToeUnitTest
             Assert.IsTrue(Program.WinningStreak(new string[] {
                 "X", "", "O", "O",
                 "", "", "", "",
-                "O", "O", "X", "",
-                "O", "X", "", "X"}, 3, 0, -1, 1, 4, "O"));
+                "O", "O", "O", "O",
+                "O", "X", "", "X"}, 0, 2, 1, 0, 4, "O"));
         }
 
         [TestMethod]
